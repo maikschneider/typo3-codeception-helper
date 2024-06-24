@@ -36,21 +36,30 @@ use function array_key_exists;
  */
 final class Entrypoint
 {
+    private string $webDirectory;
+
+    private string $mainEntrypoint;
+
+    private string $appEntrypoint;
+
     /**
      * @param non-empty-string $webDirectory
      * @param non-empty-string $mainEntrypoint
      * @param non-empty-string $appEntrypoint
      */
     public function __construct(
-        private readonly string $webDirectory,
-        private readonly string $mainEntrypoint = 'index.php',
-        private readonly string $appEntrypoint = 'app.php',
-    ) {}
+        string $webDirectory,
+        string $mainEntrypoint = 'index.php',
+        string $appEntrypoint = 'app.php'
+    ) {
+        $this->webDirectory = $webDirectory;
+        $this->mainEntrypoint = $mainEntrypoint;
+        $this->appEntrypoint = $appEntrypoint;
+    }
 
     /**
      * @param array<string, mixed> $config
-     * @param non-empty-string     $baseDirectory
-     *
+     * @param non-empty-string $baseDirectory
      * @throws Exception\ConfigIsEmpty
      * @throws Exception\ConfigIsInvalid
      */
@@ -64,12 +73,10 @@ final class Entrypoint
     }
 
     /**
-     * @param array<string, mixed>  $config
-     * @param non-empty-string      $name
+     * @param array<string, mixed> $config
+     * @param non-empty-string $name
      * @param non-empty-string|null $default
-     *
      * @return non-empty-string
-     *
      * @throws Exception\ConfigIsEmpty
      * @throws Exception\ConfigIsInvalid
      */

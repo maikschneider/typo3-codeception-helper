@@ -61,17 +61,21 @@ final class ApplicationEntrypointModifier extends Extension
      */
     private array $entrypoints = [];
 
+    private Template\TemplateRenderer $templateRenderer;
+
+    private Filesystem\Filesystem $filesystem;
+
     /**
      * @param array<string, mixed> $config
      * @param array<string, mixed> $options
      */
     public function __construct(
         array $config,
-        array $options,
-        private readonly Template\TemplateRenderer $templateRenderer = new Template\TemplateRenderer(),
-        private readonly Filesystem\Filesystem $filesystem = new Filesystem\Filesystem(),
+        array $options
     ) {
         parent::__construct($config, $options);
+        $this->templateRenderer = new Template\TemplateRenderer();
+        $this->filesystem = new Filesystem\Filesystem();
     }
 
     /**
