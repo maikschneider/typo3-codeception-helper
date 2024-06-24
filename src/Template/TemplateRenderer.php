@@ -42,16 +42,18 @@ final class TemplateRenderer
     /**
      * @var non-empty-string
      */
-    private readonly string $templateDirectory;
+    private string $templateDirectory;
+
+    private Filesystem\Filesystem $filesystem;
 
     /**
      * @param non-empty-string|null $templateDirectory
      */
     public function __construct(
-        ?string $templateDirectory = null,
-        private readonly Filesystem\Filesystem $filesystem = new Filesystem\Filesystem(),
+        ?string $templateDirectory = null
     ) {
         $this->templateDirectory = $templateDirectory ?? dirname(__DIR__, 2).'/templates';
+        $this->filesystem = new Filesystem\Filesystem();
     }
 
     /**

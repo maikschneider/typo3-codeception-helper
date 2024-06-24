@@ -50,13 +50,6 @@ final class ApplicationEntrypointModifier extends Extension
     ];
 
     /**
-     * @var array{entrypoints: list<array<string, mixed>>}
-     */
-    protected array $config = [
-        'entrypoints' => [],
-    ];
-
-    /**
      * @var list<ValueObject\Entrypoint>
      */
     private array $entrypoints = [];
@@ -76,6 +69,7 @@ final class ApplicationEntrypointModifier extends Extension
         parent::__construct($config, $options);
         $this->templateRenderer = new Template\TemplateRenderer();
         $this->filesystem = new Filesystem\Filesystem();
+        $this->config['entrypoints'] ??= [];
     }
 
     /**
@@ -96,14 +90,6 @@ final class ApplicationEntrypointModifier extends Extension
                 $this->createEntrypoint($entrypoint, true);
             }
         }
-    }
-
-    /**
-     * @return list<ValueObject\Entrypoint>
-     */
-    public function getEntrypoints(): array
-    {
-        return $this->entrypoints;
     }
 
     private function entrypointNeedsUpdate(ValueObject\Entrypoint $entrypoint): bool
@@ -131,5 +117,13 @@ final class ApplicationEntrypointModifier extends Extension
         $this->filesystem->rename($entrypoint->getMainEntrypoint(), $entrypoint->getAppEntrypoint(), true);
 
         return $this->templateRenderer->dump($templateFile, $entrypoint->getMainEntrypoint(), $variables);
+    }
+
+    /**
+     * @return list<ValueObject\Entrypoint>
+     */
+    public function getEntrypoints(): array
+    {
+        return $this->entrypoints;
     }
 }
